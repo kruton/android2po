@@ -81,9 +81,9 @@ class Language(object):
 
     @property
     def plural_keywords(self):
-        # Use .abstract rather than .rules because latter loses order
-        return [r[0] for r in self.locale.plural_form.abstract] + ['other']
-
+        from babel.plural import _plural_tags as PLURAL_TAGS
+        used = set(self.locale.plural_form.rules.keys() + ['other'])
+        return filter(lambda k: k in used, PLURAL_TAGS)
 
 class DefaultLanguage(Language):
     """A special version of ``Language``, representing the default
